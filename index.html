@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="AI automation for small businesses. We find where you're losing time and build the systems that give it back. Book a free call."/>
+  <meta property="og:title" content="Autodite &mdash; AI Workflow Audits"/>
+  <meta property="og:description" content="We find exactly where you're losing time and build the automations that give it back. Book a free call."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://autodite.com/"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Autodite &mdash; AI Workflow Audits"/>
+  <meta name="twitter:description" content="We find exactly where you're losing time and build the automations that give it back."/>
+  <meta property="og:image" content="https://autodite.com/assets/og-image.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:image" content="https://autodite.com/assets/og-image.png"/>
+  <link rel="canonical" href="https://autodite.com/"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23D66847'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23FFF8F3' font-family='sans-serif' font-weight='700' font-size='20'%3EA%3C/text%3E%3C/svg%3E"/>
+  <title>Autodite &mdash; AI Workflow Audits</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Playfair+Display:ital,wght@0,700;1,700;1,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+  <style>
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #FFF8F3; color: #2C1810; font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* SKIP LINK */
+    .skip-link { position: absolute; top: -100%; left: 1rem; background: #D66847; color: #fff; padding: .75rem 1.5rem; border-radius: 0 0 .5rem .5rem; z-index: 10000; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: .875rem; text-decoration: none; transition: top .2s; }
+    .skip-link:focus { top: 0; }
+
+    /* NOISE */
+    #noise { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px; }
+
+    /* NAVBAR */
+    #navbar { position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%); z-index: 1000; width: auto; min-width: min(680px, calc(100vw - 2rem)); border-radius: 9999px; padding: .6rem 1.25rem; transition: background .45s ease, border .45s ease, box-shadow .45s ease; }
+    #navbar.scrolled { background: rgba(255,248,243,.72); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); border: 1px solid rgba(214,104,71,.18); box-shadow: 0 8px 32px rgba(44,24,16,.1); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .nav-logo { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.25rem; letter-spacing: -.02em; color: #FFF8F3; text-decoration: none; transition: color .25s; }
+    #navbar.scrolled .nav-logo { color: #2C1810; }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; }
+    .nav-link { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: .875rem; color: rgba(255,248,243,.8); text-decoration: none; transition: color .25s, transform .25s; }
+    .nav-link:hover { color: #E89B3C; transform: translateY(-1px); }
+    #navbar.scrolled .nav-link { color: rgba(44,24,16,.7); }
+    #navbar.scrolled .nav-link:hover { color: #D66847; }
+
+    /* HAMBURGER */
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: .5rem; margin-left: auto; margin-right: .75rem; }
+    .hamburger span { display: block; width: 20px; height: 2px; background: #FFF8F3; border-radius: 2px; transition: all .3s ease; }
+    .hamburger span + span { margin-top: 5px; }
+    #navbar.scrolled .hamburger span { background: #2C1810; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(3.5px, 3.5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(3.5px, -3.5px); }
+
+    /* MOBILE MENU */
+    .mobile-menu { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(44,24,16,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; opacity: 0; transition: opacity .35s ease; pointer-events: none; }
+    .mobile-menu.open { opacity: 1; pointer-events: auto; }
+    .mobile-menu .nav-link { color: rgba(255,248,243,.85); font-size: 1.25rem; }
+    .mobile-menu .nav-link:hover { color: #E89B3C; }
+
+    /* BUTTONS */
+    .btn-primary { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: .5rem; padding: .65rem 1.4rem; border-radius: 9999px; background: #D66847; color: #fff; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: .875rem; letter-spacing: .01em; cursor: pointer; border: none; text-decoration: none; transition: transform .3s cubic-bezier(.25,.46,.45,.94), box-shadow .3s ease; }
+    .btn-primary::before { content: ''; position: absolute; inset: 0; background: #E89B3C; transform: translateX(-101%); transition: transform .4s cubic-bezier(.25,.46,.45,.94); border-radius: 9999px; }
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary:hover { transform: scale(1.03); box-shadow: 0 8px 28px rgba(214,104,71,.38); }
+    .btn-primary > span { position: relative; z-index: 1; }
+    .btn-outline { display: inline-flex; align-items: center; gap: .5rem; padding: .65rem 1.4rem; border-radius: 9999px; background: transparent; color: #D66847; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: .875rem; cursor: pointer; border: 1.5px solid rgba(214,104,71,.5); text-decoration: none; transition: all .3s cubic-bezier(.25,.46,.45,.94); }
+    .btn-outline:hover { transform: scale(1.03) translateY(-1px); background: rgba(214,104,71,.07); border-color: #D66847; }
+
+    /* SECTION LABELS */
+    .s-label { font-family: 'Inter', sans-serif; font-size: .72rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #D66847; margin-bottom: 1rem; }
+    .s-heading { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: clamp(2rem, 4vw, 3.25rem); color: #2C1810; letter-spacing: -.025em; line-height: 1.1; margin-bottom: 4rem; }
+    .reveal { opacity: 0; transform: translateY(28px); }
+
+    /* HERO */
+    #hero { height: 100dvh; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background-image: url('assets/hero-bg.jpg'); background-size: cover; background-position: center; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(44,24,16,.93) 0%, rgba(44,24,16,.55) 45%, rgba(44,24,16,.15) 100%); }
+    .hero-content { position: absolute; bottom: 9vh; left: 5vw; right: 5vw; z-index: 2; max-width: 860px; }
+    .hero-eyebrow { font-family: 'Inter', sans-serif; font-size: .75rem; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: #E89B3C; margin-bottom: 1.5rem; opacity: 0; transform: translateY(16px); }
+    .hero-h1-wrap { opacity: 0; transform: translateY(20px); }
+    .hero-h1 { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: clamp(3rem, 7vw, 6.5rem); color: #FFF8F3; letter-spacing: -.03em; line-height: 1; margin-bottom: .25rem; display: block; }
+    .hero-h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 800; font-size: clamp(3rem, 7vw, 6.5rem); color: #D66847; letter-spacing: -.025em; line-height: 1.05; margin-bottom: 1.75rem; display: block; }
+    .hero-sub { font-family: 'Inter', sans-serif; font-size: clamp(.95rem, 1.3vw, 1.08rem); color: rgba(255,248,243,.6); line-height: 1.75; max-width: 760px; margin-bottom: 2rem; opacity: 0; transform: translateY(14px); }
+    .hero-cta { opacity: 0; transform: translateY(14px); }
+
+    /* PROBLEM */
+    #problem { padding: 8rem 5vw; background: #fff; position: relative; overflow: hidden; }
+    #problem::before { content: ''; position: absolute; bottom: -4rem; right: -4rem; width: 32rem; height: 32rem; border-radius: 50%; background: radial-gradient(circle, rgba(214,104,71,.06) 0%, transparent 70%); pointer-events: none; }
+    .problem-inner { max-width: 960px; margin: 0 auto; }
+    .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 3rem; }
+    .problem-card { background: #FFF8F3; border: 1px solid rgba(44,24,16,.06); border-top: 3px solid rgba(214,104,71,.25); border-radius: 0 0 1.5rem 1.5rem; padding: 2rem; transition: transform .3s ease, box-shadow .3s ease, border-top-color .3s ease; }
+    .problem-card:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(44,24,16,.08); border-top-color: #D66847; }
+    .problem-num { font-family: 'Playfair Display', serif; font-style: italic; font-size: 2.5rem; font-weight: 700; color: rgba(214,104,71,.15); line-height: 1; margin-bottom: .75rem; }
+    .problem-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.05rem; color: #2C1810; margin-bottom: .55rem; }
+    .problem-body { font-family: 'Inter', sans-serif; font-size: .875rem; color: #8B7968; line-height: 1.72; }
+    .problem-close { font-family: 'Inter', sans-serif; font-size: 1rem; color: #2C1810; line-height: 1.7; border-left: 3px solid rgba(214,104,71,.3); padding-left: 1.25rem; }
+
+    /* FEATURES */
+    #features { padding: 8rem 5vw; }
+    .features-inner { max-width: 1200px; margin: 0 auto; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
+    .feat-card { background: #fff; border: 1px solid rgba(44,24,16,.07); border-radius: 2rem; padding: 2rem; box-shadow: 0 4px 24px rgba(44,24,16,.055); height: 420px; overflow: hidden; }
+    .feat-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.35rem; color: #2C1810; margin-bottom: .4rem; }
+    .feat-desc { font-family: 'Inter', sans-serif; font-size: .875rem; color: #8B7968; line-height: 1.65; }
+
+    /* Shuffler */
+    .shuffler-wrap { position: relative; height: 210px; margin-top: 1.5rem; }
+    .scard { position: absolute; width: 88%; background: linear-gradient(135deg, #FFF8F3, #FFF1E6); border: 1px solid rgba(214,104,71,.12); border-radius: 1rem; padding: 1rem 1.25rem; box-shadow: 0 4px 14px rgba(44,24,16,.07); transition: top .7s cubic-bezier(.34,1.56,.64,1), opacity .7s ease, transform .7s cubic-bezier(.34,1.56,.64,1); }
+    .scard-label { font-family: 'Inter', sans-serif; font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #D66847; margin-bottom: .4rem; }
+    .scard-name { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: .975rem; color: #2C1810; margin-bottom: .75rem; }
+    .scard-bar { height: 3px; background: linear-gradient(to right,#D66847,#E89B3C); border-radius: 2px; }
+    .scard-meta { font-family: 'Inter', sans-serif; font-size: .7rem; color: #8B7968; margin-top: .5rem; }
+
+    /* Typewriter */
+    .tw-wrap { margin-top: 1.5rem; background: #2C1810; border-radius: 1rem; padding: 1.125rem; height: 218px; overflow: hidden; }
+    .tw-header { display: flex; align-items: center; gap: .5rem; padding-bottom: .75rem; margin-bottom: .75rem; border-bottom: 1px solid rgba(255,248,243,.08); }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #7A9B8E; animation: pulsedot 1.6s infinite; }
+    @keyframes pulsedot { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);} }
+    .tw-live-label { font-family: 'Inter', sans-serif; font-size: .68rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,248,243,.4); }
+    .tw-line { font-family: 'Courier New', monospace; font-size: .78rem; line-height: 1.6; margin-bottom: .2rem; color: rgba(255,248,243,.45); }
+    .tw-line.tw-active { color: #E89B3C; }
+    .tw-cursor { display: inline-block; width: 7px; height: 12px; background: #D66847; animation: blink .75s step-end infinite; vertical-align: middle; margin-left: 1px; }
+    @keyframes blink { 0%,100%{opacity:1;}50%{opacity:0;} }
+
+    /* Scheduler */
+    .sched-wrap { margin-top: 1.25rem; }
+    .week-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: .3rem; margin-bottom: .85rem; }
+    .day-cell { height: 38px; border-radius: .5rem; background: #F5F0EA; border: 1px solid rgba(44,24,16,.07); display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: .6rem; font-weight: 600; color: #8B7968; line-height: 1.2; transition: all .35s cubic-bezier(.34,1.2,.64,1); }
+    .day-cell.day-lit { background: linear-gradient(135deg,#D66847,#E89B3C); border-color: transparent; color: #fff; transform: scale(1.1); box-shadow: 0 4px 14px rgba(214,104,71,.35); }
+    .save-row { display: flex; justify-content: space-between; align-items: center; }
+    .save-btn { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem 1.1rem; border-radius: 9999px; background: #FFF8F3; border: 1.5px solid rgba(214,104,71,.3); font-family: 'Outfit', sans-serif; font-weight: 600; font-size: .78rem; color: #D66847; cursor: pointer; transition: all .3s ease; }
+    .save-btn.save-active { background: #D66847; border-color: #D66847; color: #fff; transform: scale(.95); }
+    .metric-row { display: flex; gap: .75rem; margin-top: .85rem; }
+    .metric-box { flex: 1; border-radius: .75rem; padding: .65rem .75rem; }
+    .metric-box.green { background: rgba(122,155,142,.1); border: 1px solid rgba(122,155,142,.2); }
+    .metric-box.orange { background: rgba(214,104,71,.08); border: 1px solid rgba(214,104,71,.15); }
+    .metric-val { font-family: 'Courier New', monospace; font-size: .95rem; font-weight: 700; }
+    .metric-lbl { font-family: 'Inter', sans-serif; font-size: .68rem; color: #8B7968; margin-top: .1rem; }
+
+    /* OUR APPROACH */
+    #approach { padding: 10rem 5vw; background: #2C1810; position: relative; overflow: hidden; }
+    .phil-bg { position: absolute; inset: 0; background-image: url('assets/approach-bg.jpg'); background-size: cover; background-position: center; opacity: .06; }
+    .phil-content { position: relative; z-index: 1; max-width: 860px; }
+    .phil-small { font-family: 'Inter', sans-serif; font-size: clamp(.9rem,1.4vw,1.05rem); color: rgba(255,248,243,.65); line-height: 1.85; max-width: 560px; margin-bottom: 2.5rem; }
+    .phil-large { font-family: 'Playfair Display', serif; font-weight: 800; font-style: italic; font-size: clamp(2.4rem, 5.5vw, 5.5rem); color: rgba(255,248,243,.95); line-height: 1.2; }
+    .phil-accent { color: #D66847; }
+
+    /* PROTOCOL */
+    #protocol { padding: 6rem 5vw 10rem; background: #FFF8F3; }
+    .proto-stack { max-width: 1200px; margin: 0 auto; }
+    .proto-slot { padding-bottom: 2rem; }
+    .proto-card { background: #fff; border: 1px solid rgba(44,24,16,.06); border-radius: 2.5rem; padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; box-shadow: 0 8px 40px rgba(44,24,16,.07); position: sticky; top: 90px; }
+    .proto-step { font-family: 'Inter', sans-serif; font-size: .72rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #D66847; margin-bottom: .9rem; }
+    .proto-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: clamp(1.75rem, 3vw, 2.75rem); color: #2C1810; letter-spacing: -.025em; line-height: 1.15; margin-bottom: 1.25rem; }
+    .proto-desc { font-family: 'Inter', sans-serif; font-size: .975rem; color: #8B7968; line-height: 1.8; }
+    .proto-canvas { width: 100%; height: 280px; border-radius: 1.5rem; background: #2C1810; overflow: hidden; }
+
+    /* CASE STUDY */
+    #casestudy { padding: 8rem 5vw; background: #2C1810; position: relative; overflow: hidden; }
+    #casestudy::before { content: ''; position: absolute; top: -6rem; left: -6rem; width: 40rem; height: 40rem; border-radius: 50%; background: radial-gradient(circle, rgba(232,155,60,.07) 0%, transparent 65%); pointer-events: none; }
+    .casestudy-inner { max-width: 1060px; margin: 0 auto; position: relative; z-index: 1; }
+    .casestudy-inner .s-heading { color: rgba(255,248,243,.92); }
+    .casestudy-inner .s-label { color: rgba(232,155,60,.7); }
+    .cs-card { border: 1px solid rgba(255,248,243,.07); border-radius: 2.5rem; overflow: hidden; margin-top: 2rem; }
+    .cs-card-top { padding: 3rem 3rem 2.5rem; background: rgba(255,248,243,.04); }
+    .cs-card-headline { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.4rem); color: #E89B3C; margin-bottom: .75rem; }
+    .cs-client { font-family: 'Inter', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,248,243,.3); margin-bottom: 2.5rem; }
+    .cs-body-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2.5rem; }
+    .cs-col-head { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: .75rem; color: #E89B3C; margin-bottom: .65rem; letter-spacing: .04em; text-transform: uppercase; }
+    .cs-col-body { font-family: 'Inter', sans-serif; font-size: .9rem; color: rgba(255,248,243,.55); line-height: 1.75; }
+    .cs-stats { display: flex; gap: 0; background: rgba(255,248,243,.05); border-top: 1px solid rgba(255,248,243,.07); }
+    .cs-stat { flex: 1; text-align: center; padding: 2.25rem 1.5rem; }
+    .cs-stat + .cs-stat { border-left: 1px solid rgba(255,248,243,.07); }
+    .cs-stat-val { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; font-size: clamp(2rem, 4vw, 3rem); color: #E89B3C; display: block; line-height: 1; }
+    .cs-stat-lbl { font-family: 'Inter', sans-serif; font-size: .75rem; color: rgba(255,248,243,.35); margin-top: .5rem; letter-spacing: .05em; text-transform: uppercase; }
+    .cs-quote { padding: 2.5rem 3rem; border-top: 1px solid rgba(255,248,243,.07); display: flex; gap: 1.5rem; align-items: flex-start; }
+    .cs-quote-mark { font-family: 'Playfair Display', serif; font-size: 5rem; line-height: .7; color: rgba(214,104,71,.3); flex-shrink: 0; margin-top: .25rem; }
+    .cs-quote-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1rem, 1.6vw, 1.3rem); color: rgba(255,248,243,.75); line-height: 1.65; margin-bottom: .75rem; }
+    .cs-quote-attr { font-family: 'Inter', sans-serif; font-size: .78rem; color: rgba(255,248,243,.3); font-weight: 500; }
+
+    /* PRICING */
+    #pricing { padding: 8rem 5vw; background: #FFF8F3; }
+    .pricing-wrap { max-width: 1060px; margin: 0 auto; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-top: 4rem; }
+    .price-card { background: #fff; border: 1px solid rgba(44,24,16,.08); border-radius: 2rem; padding: 2.5rem; position: relative; display: flex; flex-direction: column; transition: transform .35s cubic-bezier(.25,.46,.45,.94), box-shadow .35s ease; }
+    .price-card:hover { transform: translateY(-5px); box-shadow: 0 20px 48px rgba(44,24,16,.1); }
+    .price-card.price-feat { background: #2C1810; border-color: transparent; }
+    .price-card.price-feat:hover { transform: translateY(-5px) scale(1.01); }
+    .price-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #D66847; color: #fff; font-family: 'Outfit', sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .28rem 1rem; border-radius: 9999px; }
+    .price-tier { font-family: 'Inter', sans-serif; font-size: .72rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #8B7968; margin-bottom: .8rem; }
+    .price-card.price-feat .price-tier { color: rgba(255,248,243,.35); }
+    .price-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.65rem; color: #2C1810; margin-bottom: .4rem; }
+    .price-card.price-feat .price-name { color: #FFF8F3; }
+    .price-amount { font-family: 'Playfair Display', serif; font-style: italic; font-size: 2.6rem; font-weight: 700; color: #D66847; margin-bottom: .2rem; }
+    .price-card.price-feat .price-amount { color: #E89B3C; }
+    .price-period { font-family: 'Inter', sans-serif; font-size: .82rem; color: #8B7968; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(44,24,16,.08); }
+    .price-card.price-feat .price-period { color: rgba(255,248,243,.3); border-bottom-color: rgba(255,248,243,.08); }
+    .price-feature { display: flex; align-items: flex-start; gap: .6rem; font-family: 'Inter', sans-serif; font-size: .85rem; color: #2C1810; margin-bottom: .75rem; line-height: 1.5; }
+    .price-card.price-feat .price-feature { color: rgba(255,248,243,.72); }
+    .price-dot { width: 16px; height: 16px; border-radius: 50%; background: rgba(214,104,71,.12); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; }
+    .price-dot::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #D66847; }
+    .price-card.price-feat .price-dot { background: rgba(255,248,243,.09); }
+    .price-card.price-feat .price-dot::after { background: #E89B3C; }
+    .price-cta { margin-top: auto; padding-top: 2rem; }
+
+    /* ABOUT */
+    #about { padding: 8rem 5vw; background: #FEF0E6; position: relative; overflow: hidden; }
+    #about::after { content: '\201C'; position: absolute; top: -1rem; right: 4vw; font-family: 'Playfair Display', serif; font-size: 28rem; line-height: 1; color: rgba(214,104,71,.06); pointer-events: none; z-index: 0; }
+    .about-inner { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: 3fr 2fr; gap: 5rem; align-items: start; position: relative; z-index: 1; }
+    .about-name { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.1rem; color: #8B7968; letter-spacing: .04em; margin-bottom: 2rem; margin-top: -1.5rem; }
+    .about-lede { font-family: 'Inter', sans-serif; font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: #2C1810; line-height: 1.75; margin-bottom: 1.75rem; font-weight: 500; }
+    .about-body { font-family: 'Inter', sans-serif; font-size: .95rem; color: #5A3E32; line-height: 1.85; }
+    .about-body p { margin-bottom: 1.3rem; }
+    .about-body p:last-child { margin-bottom: 0; }
+    .about-photo-box { border-radius: 2rem; aspect-ratio: 3/4; overflow: hidden; border: 1px solid rgba(214,104,71,.15); box-shadow: 0 20px 60px rgba(44,24,16,.12); }
+    .about-photo-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* FAQ */
+    #faq { padding: 8rem 5vw; background: #fff; }
+    .faq-inner { max-width: 760px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid rgba(44,24,16,.08); padding: 1.5rem 0; }
+    .faq-question { display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 1rem; width: 100%; background: none; border: none; text-align: left; padding: 0; font: inherit; }
+    .faq-q-text { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.05rem; color: #2C1810; line-height: 1.4; }
+    .faq-icon { width: 28px; height: 28px; border-radius: 50%; background: rgba(214,104,71,.1); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background .25s; }
+    .faq-icon svg { stroke: #D66847; width: 14px; height: 14px; fill: none; stroke-width: 2.2; stroke-linecap: round; transition: transform .35s ease; }
+    .faq-item.open .faq-icon { background: #D66847; }
+    .faq-item.open .faq-icon svg { stroke: #fff; transform: rotate(45deg); }
+    .faq-answer { font-family: 'Inter', sans-serif; font-size: .925rem; color: #8B7968; line-height: 1.8; max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.25,.46,.45,.94), padding .35s ease; }
+    .faq-item.open .faq-answer { max-height: 400px; padding-top: 1.1rem; }
+
+    /* FINAL CTA */
+    #final-cta { padding: 8rem 5vw; background: #2C1810; position: relative; overflow: hidden; }
+    .final-cta-bg { position: absolute; inset: 0; background-image: url('assets/final-cta-bg.jpg'); background-size: cover; background-position: center; opacity: .04; }
+    .final-cta-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; text-align: center; }
+    .final-cta-heading { font-family: 'Playfair Display', serif; font-weight: 800; font-style: italic; font-size: clamp(2.2rem, 5vw, 4.5rem); color: rgba(255,248,243,.95); line-height: 1.1; margin-bottom: 1.5rem; }
+    .final-cta-sub { font-family: 'Inter', sans-serif; font-size: clamp(.95rem,1.3vw,1.1rem); color: rgba(255,248,243,.6); line-height: 1.75; margin-bottom: 2.5rem; }
+    .final-cta-secondary { font-family: 'Inter', sans-serif; font-size: .875rem; color: rgba(255,248,243,.55); margin-top: 1.25rem; }
+    .final-cta-secondary a { color: rgba(255,248,243,.65); text-decoration: none; border-bottom: 1px solid rgba(255,248,243,.25); transition: color .25s; }
+    .final-cta-secondary a:hover { color: rgba(255,248,243,.85); }
+
+    /* FOOTER */
+    footer { background: #1A0F09; padding: 5rem 5vw 3rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3.5rem; margin-bottom: 4rem; }
+    .footer-brand { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.75rem; letter-spacing: -.025em; color: #FFF8F3; }
+    .footer-tagline { font-family: 'Inter', sans-serif; font-size: .875rem; color: rgba(255,248,243,.35); margin-top: .5rem; line-height: 1.65; }
+    .footer-col-head { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: .78rem; color: rgba(255,248,243,.55); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 1.2rem; }
+    .footer-link { display: block; font-family: 'Inter', sans-serif; font-size: .875rem; color: rgba(255,248,243,.35); text-decoration: none; margin-bottom: .6rem; transition: all .25s ease; }
+    .footer-link:hover { color: rgba(255,248,243,.8); transform: translateX(2px); }
+    .footer-bottom { border-top: 1px solid rgba(255,248,243,.07); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-legal { font-family: 'Inter', sans-serif; font-size: .78rem; color: rgba(255,248,243,.2); }
+
+    /* MOBILE OPTIMISATION */
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .feat-card { height: auto; min-height: 340px; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .proto-card { grid-template-columns: 1fr; }
+      .proto-canvas { height: 180px; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 3rem auto 0; }
+      .price-card.price-feat { transform: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-photo-box { aspect-ratio: 1/1; order: -1; }
+      .about-photo-box img { object-position: center 15%; }
+      #about::after { display: none; }
+      .cs-body-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+      .cs-stats { flex-direction: column; }
+      .cs-stat + .cs-stat { border-left: none; border-top: 1px solid rgba(255,248,243,.07); }
+      .cs-quote { flex-direction: column; gap: .75rem; padding: 2rem; }
+      .cs-quote-mark { font-size: 3rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; flex-direction: column; }
+      .mobile-menu { display: flex; }
+    }
+    @media (max-width: 640px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      #problem, #features, #casestudy, #pricing, #about, #faq, #final-cta { padding-top: 5rem; padding-bottom: 5rem; }
+      #protocol { padding-top: 4rem; padding-bottom: 7rem; }
+      #approach { padding-top: 6rem; padding-bottom: 6rem; }
+      .hero-content { bottom: 6vh; }
+      .hero-sub { font-size: .9rem; }
+      .problem-card { padding: 1.5rem; }
+      .cs-card-top { padding: 2rem; }
+      .cs-quote { padding: 1.75rem; }
+      .phil-small { margin-bottom: 3rem; }
+      .proto-card { padding: 2rem; }
+      .proto-canvas { height: 150px; }
+      .s-heading { margin-bottom: 2.5rem; }
+      .pricing-grid { max-width: 100%; }
+    }
+
+    /* REDUCED MOTION */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+  </style>
+</head>
+<body>
+
+<a href="#problem" class="skip-link">Skip to content</a>
+<div id="noise"></div>
+
+<nav id="navbar" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Autodite</a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">How It Works</a>
+      <a href="#approach" class="nav-link">Our Approach</a>
+      <a href="#protocol" class="nav-link">Process</a>
+      <a href="#pricing"  class="nav-link">Pricing</a>
+      <a href="#faq"      class="nav-link">FAQ</a>
+    </div>
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="https://cal.eu/davidarnost/discovery-call" class="btn-primary"><span>Book a Free Call</span></a>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+  <a href="#features" class="nav-link">How It Works</a>
+  <a href="#approach" class="nav-link">Our Approach</a>
+  <a href="#protocol" class="nav-link">Process</a>
+  <a href="#pricing"  class="nav-link">Pricing</a>
+  <a href="#faq"      class="nav-link">FAQ</a>
+  <a href="https://cal.eu/davidarnost/discovery-call" class="btn-primary" style="margin-top:1rem;"><span>Book a Free Call</span></a>
+</div>
+
+<section id="hero">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">For business owners tired of working evenings</p>
+    <h1 class="hero-h1-wrap"><span class="hero-h1">Reclaiming the</span><span class="hero-h2">Hours You&#8217;re Losing.</span></h1>
+    <p class="hero-sub">You&#8217;re busy running the business. Leads go cold. Admin piles up. We find exactly where you&#8217;re losing time and build the automations that give it back.</p>
+    <div class="hero-cta">
+      <a href="https://cal.eu/davidarnost/discovery-call" class="btn-primary" style="padding:.85rem 2.25rem;font-size:1rem;"><span>Book a Free Call &nbsp;&#8594;</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="problem">
+  <div class="problem-inner">
+    <p class="s-label reveal">Sound familiar?</p>
+    <h2 class="s-heading reveal">Most business owners are<br>running on empty.</h2>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="problem-num">01</div>
+        <p class="problem-title">Evenings lost to admin</p>
+        <p class="problem-body">Invoices, follow-ups, scheduling &#8212; jobs that pile up because there aren&#8217;t enough hours in the day.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-num">02</div>
+        <p class="problem-title">Leads going cold</p>
+        <p class="problem-body">You can&#8217;t respond quickly when you&#8217;re on the job. By the time you get back to them, they&#8217;ve gone elsewhere.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-num">03</div>
+        <p class="problem-title">Doing the same thing, over and over</p>
+        <p class="problem-body">Sending the same emails. Answering the same questions. Moving data between the same systems. Every week, the same.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-num">04</div>
+        <p class="problem-title">AI feels like it&#8217;s for someone else</p>
+        <p class="problem-body">Every guide seems written for tech companies. You just want to know what&#8217;s actually useful for a business like yours.</p>
+      </div>
+    </div>
+    <div class="problem-close reveal">
+      There&#8217;s a straightforward fix. It starts with understanding exactly where your time goes.
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="features-inner">
+    <p class="s-label reveal">How it works</p>
+    <h2 class="s-heading reveal" style="max-width:620px;">From audit to automation in three clear steps.</h2>
+    <div class="features-grid">
+      <div class="feat-card reveal">
+        <p class="feat-title">Clarity</p>
+        <p class="feat-desc">We map your working week and identify exactly which tasks are eating your time. No guesswork, just a clear picture of where the hours go and what they&#8217;re costing you.</p>
+        <div class="shuffler-wrap" id="shuffler">
+          <div class="scard" id="sc0" style="top:0;z-index:3;opacity:1;transform:scale(1)">
+            <p class="scard-label">Audit Stage 01</p><p class="scard-name">Workflow Mapping</p>
+            <div class="scard-bar" style="width:78%"></div><p class="scard-meta">14 processes documented</p>
+          </div>
+          <div class="scard" id="sc1" style="top:18px;z-index:2;opacity:.65;transform:scale(.97)">
+            <p class="scard-label">Audit Stage 02</p><p class="scard-name">Task Analysis</p>
+            <div class="scard-bar" style="width:54%"></div><p class="scard-meta">8 repetitive patterns found</p>
+          </div>
+          <div class="scard" id="sc2" style="top:36px;z-index:1;opacity:.35;transform:scale(.94)">
+            <p class="scard-label">Audit Stage 03</p><p class="scard-name">Audit Report</p>
+            <div class="scard-bar" style="width:91%"></div><p class="scard-meta">ROI projection complete</p>
+          </div>
+        </div>
+      </div>
+      <div class="feat-card reveal">
+        <p class="feat-title">Automation</p>
+        <p class="feat-desc">We match your specific workflows to the right AI tools. Not a generic list of software, but a tailored recommendation built around how your business actually operates.</p>
+        <div class="tw-wrap">
+          <div class="tw-header"><div class="live-dot"></div><span class="tw-live-label">Live Scan Feed</span></div>
+          <div id="tw-lines"></div>
+        </div>
+      </div>
+      <div class="feat-card reveal">
+        <p class="feat-title">Results</p>
+        <p class="feat-desc">Every recommendation comes with an ROI calculation. You will know exactly how many hours you stand to reclaim and what that is worth to your business each month.</p>
+        <div class="sched-wrap">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem;">
+            <span style="font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;color:#8B7968;">This Week</span>
+            <span id="hrs-counter" style="font-family:'Courier New',monospace;font-size:.72rem;color:#7A9B8E;font-weight:700;">+0.0 hrs saved</span>
+          </div>
+          <div class="week-grid">
+            <div class="day-cell">S<br><small>&#8212;</small></div><div class="day-cell">M<br><small>4h</small></div>
+            <div class="day-cell">T<br><small>3h</small></div><div class="day-cell">W<br><small>5h</small></div>
+            <div class="day-cell">T<br><small>4h</small></div><div class="day-cell">F<br><small>3h</small></div>
+            <div class="day-cell">S<br><small>&#8212;</small></div>
+          </div>
+          <div class="save-row">
+            <button class="save-btn" id="save-btn">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 5.5l1.5 1.5L7.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Confirm Schedule
+            </button>
+            <span style="font-family:'Courier New',monospace;font-size:.7rem;color:#8B7968;">Week 24</span>
+          </div>
+          <div class="metric-row">
+            <div class="metric-box green"><div class="metric-val" style="color:#7A9B8E;" id="metric-hrs">19h</div><div class="metric-lbl">Hours Automated</div></div>
+            <div class="metric-box orange"><div class="metric-val" style="color:#D66847;">&#163;2,470</div><div class="metric-lbl">Value This Week</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="approach">
+  <div class="phil-bg" id="phil-bg"></div>
+  <div class="phil-content">
+    <p class="phil-small reveal">Most consultants hand you a list of tools and leave you to figure it out. No follow-through. No accountability for results. Just a document that gathers dust while your evenings stay full.</p>
+    <div class="phil-large reveal">
+      Every recommendation comes with a clear <span class="phil-accent">next step</span>.
+    </div>
+  </div>
+</section>
+
+<section id="protocol">
+  <div style="max-width:1200px;margin:0 auto;">
+    <p class="s-label reveal">The process</p>
+    <h2 class="s-heading reveal">Simple to start. Built to last.</h2>
+    <div class="proto-stack">
+      <div class="proto-slot">
+        <div class="proto-card" id="pc1">
+          <div><p class="proto-step">Step 01 - Understand</p><h3 class="proto-title">We find exactly where your time goes.</h3><p class="proto-desc">A focused 60-minute session where we map your working week: every repeated task, every manual workaround, every process that runs on habit rather than efficiency. You&#8217;ll see your own business in a new light.</p></div>
+          <div class="proto-canvas" id="cv1"></div>
+        </div>
+      </div>
+      <div class="proto-slot">
+        <div class="proto-card" id="pc2">
+          <div><p class="proto-step">Step 02 - Recommend</p><h3 class="proto-title">We match your workflows to the right tools.</h3><p class="proto-desc">Not a list of AI tools to research yourself. We identify the specific automations that fit how your business operates, calculate the time and money each one saves, and present everything in plain English.</p></div>
+          <div class="proto-canvas" id="cv2"></div>
+        </div>
+      </div>
+      <div class="proto-slot">
+        <div class="proto-card" id="pc3">
+          <div><p class="proto-step">Step 03 - Deliver</p><h3 class="proto-title">You get a clear roadmap, with the numbers attached.</h3><p class="proto-desc">Your audit report is delivered within a week: three to five prioritised recommendations, an ROI projection for each, and an implementation roadmap. Want us to build it for you? That&#8217;s the next step.</p></div>
+          <div class="proto-canvas" id="cv3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="casestudy">
+  <div class="casestudy-inner">
+    <p class="s-label reveal">Real results</p>
+    <h2 class="s-heading reveal">The results speak for themselves.</h2>
+    <div class="cs-card reveal">
+      <div class="cs-card-top">
+        <p class="cs-card-headline">38 hours saved. Every month.</p>
+        <p class="cs-client">Freelance Social Media Manager, London</p>
+        <div class="cs-body-grid">
+          <div><p class="cs-col-head">The challenge</p><p class="cs-col-body">A freelance social media manager was spending 48 hours a month on manual video editing alone, before factoring in content planning, client communications, and lead management. She had heard about AI tools but had no clear picture of where to start, or whether the time investment would pay off.</p></div>
+          <div><p class="cs-col-head">The approach</p><p class="cs-col-body">An AI Audit identified three high-impact areas: video editing, content research, and lead qualification. Each was costing significant time in ways that were entirely automatable with the right tools and a straightforward setup.</p></div>
+          <div><p class="cs-col-head">The outcome</p><p class="cs-col-body">38 hours reclaimed every month. Nearly a full working week, returned every single month, to take on more clients or simply to stop working evenings.</p></div>
+        </div>
+      </div>
+      <div class="cs-stats">
+        <div class="cs-stat"><span class="cs-stat-val">38 hrs</span><p class="cs-stat-lbl">saved per month</p></div>
+        <div class="cs-stat"><span class="cs-stat-val">&#163;950</span><p class="cs-stat-lbl">recovered monthly capacity</p></div>
+        <div class="cs-stat"><span class="cs-stat-val">3</span><p class="cs-stat-lbl">workflows automated</p></div>
+      </div>
+      <div class="cs-quote">
+        <div class="cs-quote-mark">&#8220;</div>
+        <div>
+          <p class="cs-quote-text">The audit was completely straightforward. If I don&#8217;t implement this, it&#8217;s really just down to me.</p>
+          <p class="cs-quote-attr">TK &#8212; Freelance Social Media Manager</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="pricing-wrap">
+    <p class="s-label reveal">Investment</p>
+    <h2 class="s-heading reveal">Priced for small businesses.</h2>
+    <p class="reveal" style="font-family:'Inter',sans-serif;font-size:.975rem;color:#8B7968;line-height:1.75;margin-top:-2.5rem;max-width:520px;">Most clients start with the Clarity Audit. It&#8217;s low-risk, fast to complete, and gives you everything you need to decide what comes next.</p>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <p class="price-tier">Start here</p><h3 class="price-name">Clarity Audit</h3>
+        <div class="price-amount">&#163;750</div><p class="price-period">one-time engagement</p>
+        <div class="price-feature"><div class="price-dot"></div>60-minute workflow deep-dive</div>
+        <div class="price-feature"><div class="price-dot"></div>3 to 5 tailored automation recommendations</div>
+        <div class="price-feature"><div class="price-dot"></div>ROI calculation for each recommendation</div>
+        <div class="price-feature"><div class="price-dot"></div>Full written audit report</div>
+        <div class="price-feature"><div class="price-dot"></div>30-minute findings presentation</div>
+        <div class="price-cta"><a href="https://cal.eu/davidarnost/discovery-call" class="btn-outline" style="width:100%;justify-content:center;display:flex;">Book Your Audit</a></div>
+      </div>
+      <div class="price-card price-feat reveal">
+        <div class="price-badge">Most Popular</div>
+        <p class="price-tier">Performance</p><h3 class="price-name">Full Automation</h3>
+        <div class="price-amount">From &#163;3,600</div><p class="price-period">audit + build</p>
+        <div class="price-feature"><div class="price-dot"></div>Everything in the Clarity Audit</div>
+        <div class="price-feature"><div class="price-dot"></div>End-to-end automation build</div>
+        <div class="price-feature"><div class="price-dot"></div>Testing and quality assurance</div>
+        <div class="price-feature"><div class="price-dot"></div>Handover and team training</div>
+        <div class="price-feature"><div class="price-dot"></div>30 days of post-launch support</div>
+        <div class="price-cta"><a href="https://cal.eu/davidarnost/discovery-call" class="btn-primary" style="width:100%;justify-content:center;display:flex;"><span>Book a Free Call &nbsp;&#8594;</span></a></div>
+      </div>
+      <div class="price-card reveal">
+        <p class="price-tier">Bespoke</p><h3 class="price-name">Custom</h3>
+        <div class="price-amount">Let&#8217;s talk</div>
+        <p class="price-period">&nbsp;</p>
+        <p style="font-family:'Inter',sans-serif;font-size:.875rem;color:#8B7968;line-height:1.75;margin-bottom:1.5rem;">Need team training, a workshop, or something that doesn&#8217;t fit neatly into a package? Get in touch and we&#8217;ll work out the right approach together.</p>
+        <div class="price-cta"><a href="mailto:hello@autodite.com" class="btn-outline" style="width:100%;justify-content:center;display:flex;">Get in Touch</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-inner">
+    <div>
+      <p class="s-label reveal">About</p>
+      <h2 class="s-heading reveal" style="margin-bottom:2rem;">Meet the Founder</h2>
+      <p class="about-name reveal">David Arnost</p>
+      <p class="about-lede reveal">I started Autodite because I&#8217;ve watched businesses lose enormous amounts of time to tasks that should never need a person to do them.</p>
+      <div class="about-body reveal">
+        <p>I spent over five years in Sales and Marketing at Nissan, Genesis, and Hyundai, working across customer services, sales operations, strategy, and product marketing. The systems were built for a different era. The work was often data-heavy: pulling from databases, building reports by hand, and assembling presentations that would be out of date before they were finished.</p>
+        <p>In Sales Operations, one recurring job refused to get easier. Every quarter, I built a full dealer review deck from scratch - pulling data, formatting tables, assembling it slide by slide. Fifteen hours of work, every single time. So I taught myself to automate it. The same job took ten minutes.</p>
+        <p>That wasn&#8217;t the end of it. A monthly report that had taken five hours started running in thirty minutes, and landed eleven days earlier than it used to. I&#8217;d gone from dreading certain weeks to barely noticing them.</p>
+        <p>The tools available today make what I figured out back then dramatically faster, more powerful, and accessible to any business without a dedicated technical team. I work exclusively with tools built to be understood by business people, not developers. I came to this as a business person myself, and that&#8217;s exactly the position I work from with every client: you do not need a technical background, and you don&#8217;t need to know where your time is going. Finding that out is the first thing we do together.</p>
+        <p>My approach is practical and jargon-free. I&#8217;m not here to impress you with technical language. I&#8217;m here to find you time.</p>
+      </div>
+    </div>
+    <div>
+      <div class="about-photo-box reveal"><img src="assets/david-arnost.webp" alt="David Arnost, founder of Autodite"/></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="faq-inner">
+    <p class="s-label reveal" style="text-align:center;">Common questions</p>
+    <h2 class="s-heading reveal" style="text-align:center;margin-bottom:3rem;">Everything you need to know.</h2>
+    <div class="faq-item reveal">
+      <button class="faq-question" aria-expanded="false" aria-controls="faq-a1"><span class="faq-q-text">Is this just for tech companies?</span><div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
+      <div class="faq-answer" id="faq-a1" role="region">Not at all. The businesses that benefit most are small teams without a dedicated IT department: trades, health and wellness, professional services, retail. You don&#8217;t need to be technical. You just need to be spending time on tasks that repeat.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" aria-expanded="false" aria-controls="faq-a2"><span class="faq-q-text">What actually happens in the audit?</span><div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
+      <div class="faq-answer" id="faq-a2" role="region">We spend 60 minutes together walking through your typical working week. You&#8217;ll fill in a short questionnaire beforehand so we make the most of the session. Within a week you&#8217;ll have a written report with three to five specific recommendations, what each one would save you, and how to get started.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" aria-expanded="false" aria-controls="faq-a3"><span class="faq-q-text">What if I&#8217;m already using some AI tools?</span><div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
+      <div class="faq-answer" id="faq-a3" role="region">That&#8217;s a good starting point. The audit will identify gaps in what you&#8217;re using, make sure you&#8217;re getting full value from what you&#8217;ve already paid for, and surface the higher-impact opportunities you might have missed.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" aria-expanded="false" aria-controls="faq-a4"><span class="faq-q-text">How long before I see results?</span><div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
+      <div class="faq-answer" id="faq-a4" role="region">The audit report is delivered within one week of your session. If you go ahead with the Full Automation build, most implementations are complete within three to six weeks. Some recommendations you&#8217;ll be able to act on yourself the same week.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" aria-expanded="false" aria-controls="faq-a5"><span class="faq-q-text">What does the Full Automation build involve?</span><div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
+      <div class="faq-answer" id="faq-a5" role="region">We build the automations identified in your audit: setting up the tools, connecting your systems, and testing everything before handover. We&#8217;ll walk you through how it works, and we&#8217;re available for 30 days afterwards if anything needs adjusting.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" aria-expanded="false" aria-controls="faq-a6"><span class="faq-q-text">What if the recommendations don&#8217;t work for my business?</span><div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
+      <div class="faq-answer" id="faq-a6" role="region">Every recommendation includes a clear rationale and, where relevant, an alternative approach. The audit is expert analysis, not a guarantee, but every recommendation is designed to be realistic and actionable for a business of your size.</div>
+    </div>
+  </div>
+</section>
+
+<section id="final-cta">
+  <div class="final-cta-bg"></div>
+  <div class="final-cta-content">
+    <h2 class="final-cta-heading reveal">Ready to get your evenings back?</h2>
+    <p class="final-cta-sub reveal">Book a free 15-minute call. No pressure, no pitch, just a conversation about where you&#8217;re losing time and whether we can help.</p>
+    <a href="https://cal.eu/davidarnost/discovery-call" class="btn-primary reveal" style="padding:.95rem 2.5rem;font-size:1.05rem;display:inline-flex;"><span>Book a Free Call &nbsp;&#8594;</span></a>
+    <p class="final-cta-secondary reveal">Not sure yet? Email us at <a href="mailto:hello@autodite.com">hello@autodite.com</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Autodite</div>
+      <p class="footer-tagline">AI automation for small businesses. Find the time you&#8217;re losing, and build the systems that give it back.</p>
+    </div>
+    <div>
+      <p class="footer-col-head">Services</p>
+      <a href="#pricing"  class="footer-link">Clarity Audit</a>
+      <a href="#pricing"  class="footer-link">Full Automation</a>
+      <a href="#features" class="footer-link">How It Works</a>
+      <a href="#pricing"  class="footer-link">Pricing</a>
+    </div>
+    <div>
+      <p class="footer-col-head">Company</p>
+      <a href="#about"     class="footer-link">About</a>
+      <a href="#casestudy" class="footer-link">Case Studies</a>
+    </div>
+    <div>
+      <p class="footer-col-head">Connect</p>
+      <a href="https://cal.eu/davidarnost/discovery-call" class="footer-link">Book a Call</a>
+      <a href="mailto:hello@autodite.com" class="footer-link">hello@autodite.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-legal">&#169; 2026 Autodite. All rights reserved.</p>
+    <div style="display:flex;gap:2rem;">
+      <!-- <a href="/privacy" class="footer-link" style="margin:0;font-size:.78rem;">Privacy Policy</a> -->
+      <!-- <a href="/terms" class="footer-link" style="margin:0;font-size:.78rem;">Terms of Service</a> -->
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* --- Hamburger menu --- */
+const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  });
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Open menu');
+    });
+  });
+}
+
+/* --- Navbar scroll --- */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.65);
+});
+
+/* --- GSAP Animations --- */
+if (!prefersReducedMotion) {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const htl = gsap.timeline({ delay: .2 });
+  htl.to('.hero-eyebrow', { opacity: 1, y: 0, duration: .7, ease: 'power3.out' })
+     .to('.hero-h1-wrap', { opacity: 1, y: 0, duration: .9, ease: 'power3.out' }, '-=.3')
+     .to('.hero-sub', { opacity: 1, y: 0, duration: .8, ease: 'power3.out' }, '-=.35')
+     .to('.hero-cta', { opacity: 1, y: 0, duration: .7, ease: 'power3.out' }, '-=.3');
+
+  gsap.to('#hero-bg', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('#phil-bg', { yPercent: 22, ease: 'none', scrollTrigger: { trigger: '#approach', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    gsap.fromTo(el, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: .85, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 87%', toggleActions: 'play none none none' } });
+  });
+
+  /* Sticky stack — blur starts late, disabled on mobile */
+  ScrollTrigger.create({
+    trigger: '#protocol', start: 'top top', end: 'bottom bottom',
+    onUpdate(self) {
+      if (window.innerWidth < 900) return;
+      const p = self.progress;
+      const pc1 = document.getElementById('pc1'), pc2 = document.getElementById('pc2'), pc3 = document.getElementById('pc3');
+      const p1 = Math.max(0, Math.min(1, (p - 0.30) * 4.5));
+      const p2 = Math.max(0, Math.min(1, (p - 0.63) * 4.5));
+      const p3 = Math.max(0, Math.min(1, (p - 0.89) * 8));
+      pc1.style.transform = `scale(${1 - p1 * .08})`;  pc1.style.filter = `blur(${(p1 * 6).toFixed(1)}px)`;  pc1.style.opacity = String(+(Math.max(.55, 1 - p1 * .4)).toFixed(2));
+      pc2.style.transform = `scale(${1 - p2 * .06})`;  pc2.style.filter = `blur(${(p2 * 4).toFixed(1)}px)`;  pc2.style.opacity = String(+(Math.max(.62, 1 - p2 * .34)).toFixed(2));
+      pc3.style.transform = `scale(${1 - p3 * .04})`;  pc3.style.filter = `blur(${(p3 * 2.5).toFixed(1)}px)`; pc3.style.opacity = String(+(Math.max(.72, 1 - p3 * .25)).toFixed(2));
+    }
+  });
+} else {
+  /* Reduced motion: show everything immediately */
+  document.querySelectorAll('.reveal').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  document.querySelectorAll('.hero-eyebrow,.hero-h1-wrap,.hero-sub,.hero-cta').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+}
+
+/* --- FAQ accordion (accessible) --- */
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
+/* --- Card Shuffler --- */
+let sIdx = 0;
+function runShuffler() {
+  const cards = [document.getElementById('sc0'), document.getElementById('sc1'), document.getElementById('sc2')];
+  const order = [sIdx % 3, (sIdx + 1) % 3, (sIdx + 2) % 3];
+  cards.forEach((card, i) => {
+    const pos = order.indexOf(i);
+    card.style.top = (pos * 18) + 'px'; card.style.zIndex = String(3 - pos);
+    card.style.opacity = pos === 0 ? '1' : pos === 1 ? '.65' : '.35';
+    card.style.transform = pos === 0 ? 'scale(1)' : pos === 1 ? 'scale(.97)' : 'scale(.94)';
+  });
+  sIdx = (sIdx + 1) % 3;
+}
+if (!prefersReducedMotion) setInterval(runShuffler, 3000);
+
+/* --- Typewriter --- */
+const twMsgs = [
+  '> Scanning invoice approval flow...',
+  '> Detected: 3 data-entry loops',
+  '> Est. time sink: 11.5 hrs/week',
+  '> Match: n8n + AI pipeline',
+  '> Savings potential: \u00a31,840/mo',
+  '> Automation score: 94 / 100',
+  '> Ready to deploy \u2713',
+];
+let twMsgIdx = 0, twCharIdx = 0, twLineData = [];
+const twContainer = document.getElementById('tw-lines');
+function typeChar() {
+  if (twMsgIdx >= twMsgs.length) { setTimeout(() => { twMsgIdx = 0; twCharIdx = 0; twLineData = []; twContainer.innerHTML = ''; typeChar(); }, 3200); return; }
+  const msg = twMsgs[twMsgIdx];
+  if (twCharIdx === 0) {
+    twLineData.push('');
+    const div = document.createElement('div'); div.className = 'tw-line tw-active'; div.id = 'twl' + twMsgIdx; twContainer.appendChild(div);
+    if (twMsgIdx > 0) { const prev = document.getElementById('twl' + (twMsgIdx - 1)); if (prev) prev.className = 'tw-line'; }
+    twContainer.scrollTop = twContainer.scrollHeight;
+  }
+  twLineData[twMsgIdx] += msg[twCharIdx];
+  const el = document.getElementById('twl' + twMsgIdx);
+  if (el) el.innerHTML = twLineData[twMsgIdx] + '<span class="tw-cursor"></span>';
+  twCharIdx++;
+  if (twCharIdx >= msg.length) { twMsgIdx++; twCharIdx = 0; setTimeout(typeChar, 700); } else { setTimeout(typeChar, 32); }
+}
+if (!prefersReducedMotion) setTimeout(typeChar, 900);
+else if (twContainer) { twMsgs.forEach(m => { const d = document.createElement('div'); d.className = 'tw-line'; d.textContent = m; twContainer.appendChild(d); }); }
+
+/* --- Scheduler --- */
+function runScheduler() {
+  const cells = document.querySelectorAll('.day-cell');
+  cells.forEach(c => c.classList.remove('day-lit'));
+  let i = 0;
+  const days = [1, 2, 3, 4, 5];
+  function light() {
+    if (i >= days.length) {
+      const btn = document.getElementById('save-btn'); btn.classList.add('save-active');
+      const counter = document.getElementById('hrs-counter'); let h = 0;
+      const iv = setInterval(() => { h = Math.min(h + .5, 19); counter.textContent = '+' + h.toFixed(1) + ' hrs saved'; if (h >= 19) clearInterval(iv); }, 70);
+      setTimeout(() => { btn.classList.remove('save-active'); cells.forEach(c => c.classList.remove('day-lit')); counter.textContent = '+0.0 hrs saved'; setTimeout(runScheduler, 1800); }, 2200);
+      return;
+    }
+    cells[days[i]].classList.add('day-lit'); i++; setTimeout(light, 480);
+  }
+  setTimeout(light, 600);
+}
+if (!prefersReducedMotion) setTimeout(runScheduler, 1400);
+
+/* --- Canvas animations with IntersectionObserver --- */
+function createCanvasAnimation(containerId, drawFn) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const canvas = document.createElement('canvas');
+  canvas.style.width = '100%'; canvas.style.height = '100%'; container.appendChild(canvas);
+  function resize() { canvas.width = container.clientWidth; canvas.height = container.clientHeight; } resize();
+  const ctx = canvas.getContext('2d');
+  let rafId = null, running = false;
+
+  function loop() { drawFn(ctx, canvas); rafId = requestAnimationFrame(loop); }
+
+  if (!prefersReducedMotion) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !running) { running = true; loop(); }
+        else if (!entry.isIntersecting && running) { running = false; if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+      });
+    }, { threshold: 0.05 });
+    observer.observe(container);
+  }
+  window.addEventListener('resize', resize);
+}
+
+/* Canvas 1: Concentric orbits */
+let angle1 = 0;
+createCanvasAnimation('cv1', (ctx, canvas) => {
+  const w = canvas.width, h = canvas.height; ctx.clearRect(0, 0, w, h); ctx.fillStyle = '#2C1810'; ctx.fillRect(0, 0, w, h);
+  const cx = w / 2, cy = h / 2, radii = [32, 58, 85, 114];
+  radii.forEach((r, i) => { ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.strokeStyle = `rgba(214,104,71,${.1 + i * .04})`; ctx.lineWidth = 1; ctx.setLineDash([3, 7]); ctx.stroke(); ctx.setLineDash([]); });
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, 114, angle1 - .35, angle1, false); ctx.closePath(); ctx.fillStyle = 'rgba(232,155,60,.06)'; ctx.fill();
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + 114 * Math.cos(angle1), cy + 114 * Math.sin(angle1)); ctx.strokeStyle = 'rgba(232,155,60,.45)'; ctx.lineWidth = 1; ctx.stroke();
+  radii.forEach((r, i) => { const a = angle1 + i * Math.PI * .6, x = cx + r * Math.cos(a), y = cy + r * Math.sin(a); ctx.beginPath(); ctx.arc(x, y, 3.5, 0, Math.PI * 2); ctx.fillStyle = i === 0 ? '#D66847' : `rgba(214,104,71,${.35 + i * .15})`; ctx.shadowColor = '#D66847'; ctx.shadowBlur = i === 0 ? 8 : 0; ctx.fill(); ctx.shadowBlur = 0; });
+  ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fillStyle = '#E89B3C'; ctx.shadowColor = '#E89B3C'; ctx.shadowBlur = 12; ctx.fill(); ctx.shadowBlur = 0;
+  angle1 += .018;
+});
+
+/* Canvas 2: Scanning laser */
+const grid2 = Array.from({ length: 10 }, () => Array.from({ length: 18 }, () => Math.random() > .45));
+let scanX2 = -40;
+createCanvasAnimation('cv2', (ctx, canvas) => {
+  const w = canvas.width, h = canvas.height, cols = 18, rows = 10; ctx.clearRect(0, 0, w, h); ctx.fillStyle = '#2C1810'; ctx.fillRect(0, 0, w, h);
+  const cw = w / cols, rh = h / rows;
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const x = c * cw + cw / 2, y = r * rh + rh / 2, dist = x - scanX2, scanned = x < scanX2, hit = grid2[r][c];
+    ctx.beginPath(); ctx.arc(x, y, 2.2, 0, Math.PI * 2);
+    if (Math.abs(dist) < 14) { ctx.fillStyle = '#E89B3C'; ctx.shadowColor = '#E89B3C'; ctx.shadowBlur = 10; }
+    else if (scanned && hit) { ctx.fillStyle = 'rgba(214,104,71,.55)'; }
+    else if (scanned) { ctx.fillStyle = 'rgba(139,121,104,.25)'; }
+    else { ctx.fillStyle = 'rgba(255,248,243,.1)'; }
+    ctx.fill(); ctx.shadowBlur = 0;
+  }
+  const grd = ctx.createLinearGradient(Math.max(0, scanX2 - 40), 0, scanX2 + 6, 0);
+  grd.addColorStop(0, 'rgba(232,155,60,0)'); grd.addColorStop(1, 'rgba(232,155,60,.08)');
+  ctx.fillStyle = grd; ctx.fillRect(Math.max(0, scanX2 - 40), 0, 44, h);
+  ctx.beginPath(); ctx.moveTo(scanX2, 0); ctx.lineTo(scanX2, h); ctx.strokeStyle = 'rgba(232,155,60,.75)'; ctx.lineWidth = 1.5; ctx.stroke();
+  scanX2 += 1.6; if (scanX2 > w + 40) scanX2 = -40;
+});
+
+/* Canvas 3: EKG waveform */
+let offset3 = 0;
+createCanvasAnimation('cv3', (ctx, canvas) => {
+  const w = canvas.width, h = canvas.height; ctx.clearRect(0, 0, w, h); ctx.fillStyle = '#2C1810'; ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = 'rgba(255,248,243,.04)'; ctx.lineWidth = 1;
+  for (let i = 0; i < 8; i++) { ctx.beginPath(); ctx.moveTo(0, i * h / 7); ctx.lineTo(w, i * h / 7); ctx.stroke(); }
+  for (let i = 0; i < 16; i++) { ctx.beginPath(); ctx.moveTo(i * w / 15, 0); ctx.lineTo(i * w / 15, h); ctx.stroke(); }
+  function ekgY(x) { const t = ((x + offset3) / w) % 1; if (t < .08) return 0; else if (t < .13) return -(t - .08) * 1600; else if (t < .18) return -80 + (t - .13) * 2000; else if (t < .24) return 20 - (t - .18) * 1800; else if (t < .32) return 20 - (t - .24) * 400; else if (t < .50) return Math.sin((t - .32) * Math.PI * 5.5) * 7; else return 0; }
+  ctx.beginPath(); ctx.moveTo(0, h / 2 + ekgY(0));
+  for (let x = 1; x < w; x++) ctx.lineTo(x, h / 2 + ekgY(x));
+  ctx.strokeStyle = '#D66847'; ctx.lineWidth = 2; ctx.shadowColor = 'rgba(214,104,71,.55)'; ctx.shadowBlur = 10; ctx.stroke(); ctx.shadowBlur = 0;
+  const ly = h / 2 + ekgY(w - 2); ctx.beginPath(); ctx.arc(w - 2, ly, 4.5, 0, Math.PI * 2); ctx.fillStyle = '#E89B3C'; ctx.shadowColor = 'rgba(232,155,60,.9)'; ctx.shadowBlur = 16; ctx.fill(); ctx.shadowBlur = 0;
+  offset3 += 2;
+});
+
+});
+</script>
+</body>
+</html>
